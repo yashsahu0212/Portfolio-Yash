@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg-cream: #fbfaee;
+  --primary-black: #000000;
+  --accent-yellow: #fcd400;
+  --accent-orange: #ff6b00;
+  --pastel-blue: #dde1ff;
+  --pastel-pink: #ffdad6;
+  --pastel-green: #d1f2d9;
+}
+
+body {
+  background-color: var(--bg-cream);
+  color: var(--primary-black);
+  font-family: 'Hanken Grotesk', sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Neo brutalist shadow utilities */
+.neo-shadow {
+  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+}
+
+.neo-shadow-sm {
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+}
+
+.neo-shadow-yellow {
+  box-shadow: 6px 6px 0px 0px #fcd400;
+}
+
+.neo-shadow-hover {
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neo-shadow-hover:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px 0px rgba(0, 0, 0, 1);
+}
+
+.neo-shadow-hover:active {
+  transform: translate(0px, 0px);
+  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
+}
+
+/* Stripe pattern background */
+.stripes-pattern {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #000,
+    #000 12px,
+    #fcd400 12px,
+    #fcd400 24px
+  );
+}
+
+.stripes-pattern-dark {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #111,
+    #111 12px,
+    #222 12px,
+    #222 24px
+  );
+}
+
+.stripes-pattern-light {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #fbfaee,
+    #fbfaee 10px,
+    #e8e7d5 10px,
+    #e8e7d5 20px
+  );
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fbfaee;
+  border-left: 3px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fcd400;
+  border: 3px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b00;
+}
+
+body.custom-cursor-enabled,
+body.custom-cursor-enabled * {
+  cursor: none !important;
+}
+
+/* Grid paper texture overlay */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+}
