@@ -14,7 +14,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ onNavigate, onSelect
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const categories = ['All', 'Full Stack', 'Frontend', 'AI / Systems'];
+  const categories = ['All', 'Full Stack', 'Frontend', 'Systems & Backend'];
 
   const filteredProjects = PROJECTS_DATA.filter((project) => {
     const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
@@ -33,18 +33,15 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ onNavigate, onSelect
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-block bg-black text-[#fcd400] text-xs font-bold px-3 py-1 uppercase mb-2">
-              [ 02 // PORTFOLIO SHOWCASE ]
+              [ PROJECTS ]
             </div>
             <ScrollRevealText as="h1" className="text-4xl sm:text-6xl font-heading font-extrabold uppercase text-black leading-none">
               FEATURED PROJECTS
             </ScrollRevealText>
-            <p className="text-black font-bold text-sm md:text-base mt-2 font-sans">
-              Production-ready web applications, distributed backend systems, and experimental AI tools.
-            </p>
           </div>
 
           <div className="bg-black text-white p-3 border-2 border-black neo-shadow-sm text-xs font-mono font-bold">
-            <span className="text-[#fcd400]">SHOWING:</span> {filteredProjects.length} OF {PROJECTS_DATA.length} PROJECTS
+            <span className="text-[#fcd400]">SHOWING:</span> {filteredProjects.length} OF {PROJECTS_DATA.length}
           </div>
         </div>
 
@@ -116,23 +113,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ onNavigate, onSelect
                       {project.title}
                     </h3>
                     <p className="text-[#ff6b00] text-xs font-mono font-bold mt-0.5">
-                      ROLE: {project.role}
+                      {project.role}
                     </p>
                   </div>
 
-                  <p className="text-gray-700 text-sm leading-relaxed font-sans line-clamp-3">
-                    {project.description}
+                  <p className="text-gray-700 text-sm leading-relaxed font-sans line-clamp-2">
+                    {project.tagline}
                   </p>
-
-                  {/* Highlights Bullet List */}
-                  <div className="bg-[#fbfaee] p-3 border-2 border-black text-xs font-sans space-y-1">
-                    <span className="font-mono font-bold text-black block mb-1">KEY FEATURE:</span>
-                    <p className="text-gray-800 italic">"{project.highlights[0]}"</p>
-                  </div>
 
                   {/* Tech Tags */}
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    {project.tags.map((tag, idx) => (
+                    {project.tags.slice(0, 4).map((tag, idx) => (
                       <span
                         key={idx}
                         className="bg-white text-black border border-black px-2 py-0.5 text-[11px] font-mono font-bold"
@@ -149,7 +140,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ onNavigate, onSelect
                 <button
                   className="flex-1 bg-[#fcd400] text-black group-hover:bg-black group-hover:text-[#fcd400] py-2.5 font-bold text-xs uppercase border-2 border-black transition-colors flex items-center justify-center gap-1.5"
                 >
-                  <span>INSPECT DETAILS</span>
+                  <span>VIEW DETAILS</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </button>
 
@@ -177,31 +168,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ onNavigate, onSelect
             }}
             className="bg-[#fcd400] text-black px-4 py-2 font-bold text-xs border-2 border-black uppercase hover:bg-black hover:text-white"
           >
-            RESET ALL FILTERS
+            RESET FILTERS
           </button>
         </div>
       )}
-
-      {/* Quick Navigation Footer Banner for Projects Screen */}
-      <div className="bg-[#dde1ff] border-4 border-black p-6 font-mono flex flex-col md:flex-row items-center justify-between gap-4 neo-shadow-sm">
-        <div>
-          <span className="font-bold text-black text-sm uppercase block">WANT TO DISCUSS A CUSTOM PROJECT OR FEATURE?</span>
-          <span className="text-xs text-gray-700 font-sans">Let's talk about timeline, requirements, and system design.</span>
-        </div>
-
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            onNavigate('Contact - Yash Sahu');
-          }}
-          data-name="Contact"
-          data-destination="CONTACT 05/05"
-          className="bg-black text-[#fcd400] hover:bg-[#fcd400] hover:text-black px-6 py-3 font-bold text-xs border-2 border-black uppercase transition-colors"
-        >
-          CONTACT YASH SAHU NOW
-        </a>
-      </div>
 
     </div>
   );

@@ -4,6 +4,7 @@ import { Menu, X, ToggleLeft, ToggleRight, MousePointer, Volume2, VolumeX } from
 import { soundFX } from '../utils/sfx';
 import { MagneticButton } from './MagneticButton';
 import { TextRoll } from './TextRoll';
+import { YashSignature } from './YashSignature';
 
 interface HeaderNavProps {
   currentScreen: ScreenId;
@@ -19,11 +20,11 @@ const NAV_ITEMS: Array<{
   targetScreen: ScreenId;
   destinationAttr: string;
 }> = [
-  { name: 'About', targetScreen: 'About - Yash Sahu (Curtain Transitions)', destinationAttr: 'ABOUT 01/05' },
-  { name: 'Projects', targetScreen: 'Projects - Yash Sahu', destinationAttr: 'PROJECTS 02/05' },
-  { name: 'Skills', targetScreen: 'Skills - Yash Sahu (Curtain Transitions)', destinationAttr: 'SKILLS 03/05' },
-  { name: 'Experience', targetScreen: 'Experience - Yash Sahu (Curtain Transitions)', destinationAttr: 'EXPERIENCE 04/05' },
-  { name: 'Contact', targetScreen: 'Contact - Yash Sahu', destinationAttr: 'CONTACT 05/05' },
+  { name: 'About', targetScreen: 'About', destinationAttr: 'ABOUT 01/05' },
+  { name: 'Projects', targetScreen: 'Projects', destinationAttr: 'PROJECTS 02/05' },
+  { name: 'Skills', targetScreen: 'Skills', destinationAttr: 'SKILLS 03/05' },
+  { name: 'Experience', targetScreen: 'Experience', destinationAttr: 'EXPERIENCE 04/05' },
+  { name: 'Contact', targetScreen: 'Contact', destinationAttr: 'CONTACT 05/05' },
 ];
 
 export const HeaderNav: React.FC<HeaderNavProps> = ({
@@ -56,11 +57,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         {/* Brand Logo Link */}
         <div className="flex items-center gap-2 sm:gap-3">
           <MagneticButton
-            onClick={(e) => handleNavClick(e, 'Yash Sahu - Developer Portfolio')}
-            className="flex items-center gap-2 text-xl md:text-2xl font-heading font-extrabold text-black bg-[#fcd400] px-3 py-1 border-3 border-black neo-shadow-sm transition-transform"
+            onClick={(e) => handleNavClick(e, 'Home')}
+            className="flex items-center gap-2 text-xl md:text-2xl font-heading font-extrabold text-black bg-[#fcd400] px-3 py-1 border-3 border-black neo-shadow-sm transition-transform group"
             id="brand-logo"
           >
-            <span className="w-3 h-3 bg-black rounded-full"></span>
+            <YashSignature width={60} height={24} color="#000000" strokeWidth={3} animated={false} />
             <TextRoll>YASH SAHU</TextRoll>
           </MagneticButton>
 
@@ -151,7 +152,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         {/* Available to Hire Badge CTA */}
         <div className="hidden sm:flex items-center gap-2">
           <MagneticButton
-            onClick={(e) => handleNavClick(e, 'Contact - Yash Sahu')}
+            onClick={(e) => handleNavClick(e, 'Contact')}
             className="inline-flex items-center gap-2 bg-[#22c55e] text-black font-bold text-xs px-3 py-1.5 border-2 border-black neo-shadow-sm"
           >
             <span className="w-2.5 h-2.5 bg-black rounded-full"></span>

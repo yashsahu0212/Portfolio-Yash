@@ -12,11 +12,11 @@ const FOOTER_NAV_ITEMS: Array<{
   targetScreen: ScreenId;
   destinationAttr: string;
 }> = [
-  { name: 'About', targetScreen: 'About - Yash Sahu (Curtain Transitions)', destinationAttr: 'ABOUT 01/05' },
-  { name: 'Projects', targetScreen: 'Projects - Yash Sahu', destinationAttr: 'PROJECTS 02/05' },
-  { name: 'Skills', targetScreen: 'Skills - Yash Sahu (Curtain Transitions)', destinationAttr: 'SKILLS 03/05' },
-  { name: 'Experience', targetScreen: 'Experience - Yash Sahu (Curtain Transitions)', destinationAttr: 'EXPERIENCE 04/05' },
-  { name: 'Contact', targetScreen: 'Contact - Yash Sahu', destinationAttr: 'CONTACT 05/05' },
+  { name: 'About', targetScreen: 'About', destinationAttr: 'ABOUT 01/05' },
+  { name: 'Projects', targetScreen: 'Projects', destinationAttr: 'PROJECTS 02/05' },
+  { name: 'Skills', targetScreen: 'Skills', destinationAttr: 'SKILLS 03/05' },
+  { name: 'Experience', targetScreen: 'Experience', destinationAttr: 'EXPERIENCE 04/05' },
+  { name: 'Contact', targetScreen: 'Contact', destinationAttr: 'CONTACT 05/05' },
 ];
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {

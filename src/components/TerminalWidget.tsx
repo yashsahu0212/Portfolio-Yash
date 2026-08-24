@@ -73,7 +73,7 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
             <p className="mt-1">4+ years building high-throughput web apps, React architectures, and backend microservices.</p>
             {onNavigate && (
               <button
-                onClick={() => onNavigate('About - Yash Sahu (Curtain Transitions)')}
+                onClick={() => onNavigate('About')}
                 className="mt-2 text-xs bg-[#fcd400] text-black px-2 py-1 font-bold underline"
               >
                 [ Navigate to About Page ]
@@ -96,12 +96,12 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
       case 'projects':
         output = (
           <div className="text-gray-200 space-y-1">
-            <p>1. <span className="text-[#fcd400] font-bold">Nexus OS</span> - Browser Virtual Desktop OS</p>
-            <p>2. <span className="text-[#fcd400] font-bold">DevPulse</span> - Real-Time Developer Analytics</p>
-            <p>3. <span className="text-[#fcd400] font-bold">OmniChat AI</span> - Multi-modal Assistant Workspace</p>
+            <p>1. <span className="text-[#fcd400] font-bold">Resilience Analyzer</span> - System Resilience Engine</p>
+            <p>2. <span className="text-[#fcd400] font-bold">Hotel Management System</span> - Automated Billing & Reservation</p>
+            <p>3. <span className="text-[#fcd400] font-bold">Temperature Predictor</span> - Thermal Analytics Platform</p>
             {onNavigate && (
               <button
-                onClick={() => onNavigate('Projects - Yash Sahu')}
+                onClick={() => onNavigate('Projects')}
                 className="mt-2 text-xs bg-[#fcd400] text-black px-2 py-1 font-bold underline"
               >
                 [ View All Projects ]

@@ -11,11 +11,6 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
   const [activeTab, setActiveTab] = useState<'bio' | 'philosophy' | 'story'>('bio');
   const [resumeDownloaded, setResumeDownloaded] = useState(false);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, destination: ScreenId) => {
-    e.preventDefault();
-    onNavigate(destination);
-  };
-
   const handleDownloadResume = () => {
     setResumeDownloaded(true);
     setTimeout(() => setResumeDownloaded(false), 3000);
@@ -26,30 +21,16 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
       
       {/* Top Section Banner */}
       <div className="bg-[#fcd400] border-6 border-black neo-shadow-lg p-6 md:p-10 font-mono">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-block bg-black text-[#fcd400] text-xs font-bold px-3 py-1 uppercase">
-              [ 01 // ABOUT YASH SAHU ]
-            </div>
-            <ScrollRevealText as="h1" className="text-4xl sm:text-6xl font-heading font-extrabold uppercase text-black leading-none">
-              WHO IS YASH SAHU?
-            </ScrollRevealText>
-            <p className="text-black font-bold text-base md:text-lg max-w-2xl font-sans">
-              <span className="bg-black text-[#fcd400] px-2.5 py-0.5 border-2 border-black font-heading">Full-Stack Software Engineer</span>, UI Craftsman, and Technical Writer.
-            </p>
+        <div className="space-y-2">
+          <div className="inline-block bg-black text-[#fcd400] text-xs font-bold px-3 py-1 uppercase">
+            [ ABOUT ]
           </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <a
-              href="#"
-              onClick={(e) => handleLinkClick(e, 'Contact - Yash Sahu')}
-              data-name="Contact"
-              data-destination="CONTACT 05/05"
-              className="bg-black text-[#fcd400] hover:bg-white hover:text-black px-5 py-3 font-bold text-sm border-3 border-black neo-shadow-sm uppercase transition-colors"
-            >
-              HIRE YASH SAHU
-            </a>
-          </div>
+          <ScrollRevealText as="h1" className="text-4xl sm:text-6xl font-heading font-extrabold uppercase text-black leading-none">
+            WHO IS YASH SAHU?
+          </ScrollRevealText>
+          <p className="text-black font-bold text-base md:text-lg max-w-2xl font-sans">
+            <span className="bg-black text-[#fcd400] px-2.5 py-0.5 border-2 border-black font-heading">Full-Stack Software Engineer</span>, UI Craftsman, and Technical Writer.
+          </p>
         </div>
       </div>
 
@@ -67,7 +48,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 activeTab === 'bio' ? 'bg-black text-[#fcd400]' : 'hover:bg-gray-100 text-black'
               }`}
             >
-              01. Background & Bio
+              Background
             </button>
             <button
               onClick={() => setActiveTab('philosophy')}
@@ -75,7 +56,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 activeTab === 'philosophy' ? 'bg-black text-[#fcd400]' : 'hover:bg-gray-100 text-black'
               }`}
             >
-              02. Dev Philosophy
+              Philosophy
             </button>
             <button
               onClick={() => setActiveTab('story')}
@@ -83,7 +64,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 activeTab === 'story' ? 'bg-black text-[#fcd400]' : 'hover:bg-gray-100 text-black'
               }`}
             >
-              03. Journey & Timeline
+              Timeline
             </button>
           </div>
 
@@ -106,7 +87,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
               {/* Core Strengths Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t-2 border-black font-mono text-xs">
                 <div className="bg-[#fbfaee] p-4 border-2 border-black">
-                  <span className="font-bold text-[#ff6b00] block mb-1">▶ FRONTEND ARCHITECTURE</span>
+                  <span className="font-bold text-[#ff6b00] block mb-1">▶ FRONTEND</span>
                   <span className="text-black">React 19, TypeScript, Tailwind CSS, State Machines, WebSockets.</span>
                 </div>
                 <div className="bg-[#fbfaee] p-4 border-2 border-black">
@@ -121,7 +102,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
           {activeTab === 'philosophy' && (
             <div className="bg-white border-4 border-black p-6 md:p-8 neo-shadow-sm space-y-6">
               <h2 className="text-2xl md:text-3xl font-heading font-extrabold uppercase text-black">
-                CORE CODE PRINCIPLES
+                CORE PRINCIPLES
               </h2>
 
               <div className="space-y-4 font-mono text-sm">
@@ -140,7 +121,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 </div>
 
                 <div className="p-4 bg-[#fbfaee] border-3 border-black space-y-2">
-                  <span className="bg-black text-[#fcd400] px-2 py-0.5 font-bold">3. NEO-BRUTALIST CLARITY</span>
+                  <span className="bg-black text-[#fcd400] px-2 py-0.5 font-bold">3. CLARITY OVER COMPLEXITY</span>
                   <p className="font-sans text-gray-800 text-sm">
                     Bold typography, high-contrast borders, and spacious layouts focus user attention on content without hiding behind low-contrast aesthetic fluff.
                   </p>
@@ -153,72 +134,30 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
           {activeTab === 'story' && (
             <div className="bg-white border-4 border-black p-6 md:p-8 neo-shadow-sm space-y-6">
               <h2 className="text-2xl md:text-3xl font-heading font-extrabold uppercase text-black">
-                MILESTONES & GROWTH
+                EDUCATION & TIMELINE
               </h2>
 
               <div className="space-y-6 font-mono text-xs">
                 <div className="border-l-4 border-black pl-4 space-y-1">
-                  <span className="bg-[#fcd400] text-black px-2 py-0.5 font-bold">2024 - PRESENT</span>
-                  <h3 className="text-base font-bold text-black font-heading mt-1">Full-Stack Projects & Open Source</h3>
-                  <p className="font-sans text-gray-700 text-xs">Developing Resilience-Analyzer, Python Predictors, and Neobrutalist UI systems.</p>
+                  <span className="bg-[#fcd400] text-black px-2 py-0.5 font-bold">2025 - PRESENT</span>
+                  <h3 className="text-base font-bold text-black font-heading mt-1">B.Tech in Computer Science & Engineering</h3>
+                  <p className="font-sans text-gray-700 text-xs">VIT Bhopal University — Focus on Software Development, InfoSec, and Web Architectures.</p>
                 </div>
 
                 <div className="border-l-4 border-black pl-4 space-y-1">
-                  <span className="bg-[#22c55e] text-black px-2 py-0.5 font-bold">2023 - 2024</span>
-                  <h3 className="text-base font-bold text-black font-heading mt-1">Software Engineering @ VIT Bhopal</h3>
-                  <p className="font-sans text-gray-700 text-xs">Deep dive into data structures, algorithm design, machine learning, and systems architecture.</p>
+                  <span className="bg-[#22c55e] text-black px-2 py-0.5 font-bold">2 YRS (11TH & 12TH)</span>
+                  <h3 className="text-base font-bold text-black font-heading mt-1">Higher Secondary Schooling (Class 11th - 12th)</h3>
+                  <p className="font-sans text-gray-700 text-xs">Vardhman International School, Indore — Science & Mathematics (PCM).</p>
+                </div>
+
+                <div className="border-l-4 border-black pl-4 space-y-1">
+                  <span className="bg-[#ff6b00] text-white px-2 py-0.5 font-bold">10 YEARS</span>
+                  <h3 className="text-base font-bold text-black font-heading mt-1">Primary & Secondary Schooling</h3>
+                  <p className="font-sans text-gray-700 text-xs">Trinity Convent Higher Secondary School, Vidisha — Foundational education and academic growth.</p>
                 </div>
               </div>
             </div>
           )}
-
-          {/* Direct Navigation Links */}
-          <div className="bg-[#dde1ff] p-6 border-4 border-black neo-shadow-sm font-mono space-y-4">
-            <span className="text-xs font-bold text-black uppercase tracking-wider block border-b-2 border-black pb-2">
-              [ DIRECT PAGE NAVIGATION LINKS ]
-            </span>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href="#"
-                onClick={(e) => handleLinkClick(e, 'Projects - Yash Sahu')}
-                data-name="Projects"
-                data-destination="PROJECTS 02/05"
-                className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-4 py-2 font-bold text-xs border-2 border-black uppercase neo-shadow-sm transition-colors"
-              >
-                Go to Projects Page
-              </a>
-
-              <a
-                href="#"
-                onClick={(e) => handleLinkClick(e, 'Skills - Yash Sahu (Curtain Transitions)')}
-                data-name="Skills"
-                data-destination="SKILLS 03/05"
-                className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-4 py-2 font-bold text-xs border-2 border-black uppercase neo-shadow-sm transition-colors"
-              >
-                Go to Skills Page
-              </a>
-
-              <a
-                href="#"
-                onClick={(e) => handleLinkClick(e, 'Experience - Yash Sahu (Curtain Transitions)')}
-                data-name="Experience"
-                data-destination="EXPERIENCE 04/05"
-                className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-4 py-2 font-bold text-xs border-2 border-black uppercase neo-shadow-sm transition-colors"
-              >
-                Go to Experience Page
-              </a>
-
-              <a
-                href="#"
-                onClick={(e) => handleLinkClick(e, 'Contact - Yash Sahu')}
-                data-name="Contact"
-                data-destination="CONTACT 05/05"
-                className="bg-[#22c55e] text-black hover:bg-black hover:text-[#22c55e] px-4 py-2 font-bold text-xs border-2 border-black uppercase neo-shadow-sm transition-colors"
-              >
-                Go to Contact Page
-              </a>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Bio Quick Card & Testimonials */}
@@ -233,9 +172,6 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-300"
               />
-              <div className="absolute bottom-2 left-2 bg-black text-[#fcd400] px-2.5 py-1 text-[11px] font-bold border border-black neo-shadow-sm">
-                YASH SAHU // DEV
-              </div>
             </div>
 
             <div className="space-y-2 text-xs">
@@ -245,11 +181,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
               </div>
               <div className="flex items-center justify-between border-b border-gray-300 pb-1.5">
                 <span className="text-gray-500 font-bold">ROLE:</span>
-                <span className="font-bold text-black">Full-Stack Engineer</span>
+                <span className="font-bold text-black">CS Student & Developer</span>
               </div>
               <div className="flex items-center justify-between border-b border-gray-300 pb-1.5">
-                <span className="text-gray-500 font-bold">EXPERIENCE:</span>
-                <span className="font-bold text-black">{YASH_BIO.yearsExperience}</span>
+                <span className="text-gray-500 font-bold">COLLEGE:</span>
+                <span className="font-bold text-black">VIT Bhopal</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-500 font-bold">EMAIL:</span>
@@ -269,7 +205,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
           {/* Client & Peer Testimonials */}
           <div className="space-y-4">
             <span className="bg-black text-white font-mono text-xs font-bold px-3 py-1 uppercase block text-center border-2 border-black">
-              [ WHAT TEAMMATES SAY ]
+              [ WHAT TEAMMATES & PEERS SAY ]
             </span>
 
             {TESTIMONIALS_DATA.map((t) => (

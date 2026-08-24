@@ -23,7 +23,7 @@ const getStepNumber = (screen: ScreenId): string => {
 };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenId>('Yash Sahu - Developer Portfolio');
+  const [currentScreen, setCurrentScreen] = useState<ScreenId>('Home');
   const [isCurtainMode, setIsCurtainMode] = useState<boolean>(true);
   const [isCurtainActive, setIsCurtainActive] = useState<boolean>(true);
   const [isWelcome, setIsWelcome] = useState<boolean>(true);

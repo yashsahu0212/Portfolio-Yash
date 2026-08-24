@@ -2,20 +2,13 @@ import React, { useState, useMemo } from 'react';
 import { ScreenId, Project } from '../types';
 import { SKILLS_DATA, PROJECTS_DATA } from '../data/portfolioData';
 import { MagneticCard } from '../components/MagneticCard';
-import { MagneticButton } from '../components/MagneticButton';
 import { soundFX } from '../utils/sfx';
 import { 
   Search, 
-  Terminal, 
   Sparkles, 
   ExternalLink, 
   Check, 
-  Code2, 
-  Layers, 
-  Flame, 
   X,
-  Cpu,
-  Zap
 } from 'lucide-react';
 
 interface SkillsViewProps {
@@ -27,12 +20,6 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeSkillFilter, setActiveSkillFilter] = useState<string | null>(null);
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLElement>, destination: ScreenId) => {
-    e.preventDefault();
-    soundFX.playClick();
-    onNavigate(destination);
-  };
 
   // Flatten all skills with category info for unified grid search/filter
   const allSkills = useMemo(() => {
@@ -72,7 +59,7 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
     });
   }, [allSkills, selectedCategory, searchQuery]);
 
-  // Find projects matching activeSkillFilter (e.g. if user clicks "TypeScript")
+  // Find projects matching activeSkillFilter
   const matchingProjects = useMemo(() => {
     if (!activeSkillFilter) return [];
     const term = activeSkillFilter.toLowerCase();
@@ -94,107 +81,22 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-12 font-sans">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-10 font-sans">
       
       {/* Top Banner */}
-      <div className="bg-[#fcd400] border-6 border-black neo-shadow-lg p-6 md:p-10 font-mono space-y-4">
+      <div className="bg-[#fcd400] border-6 border-black neo-shadow-lg p-6 md:p-10 font-mono">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-block bg-black text-[#fcd400] text-xs font-bold px-3 py-1 uppercase mb-2">
-              [ 03 // TECHNICAL MATRIX PLAYGROUND ]
+              [ SKILLS ]
             </div>
             <h1 className="text-4xl sm:text-6xl font-heading font-extrabold uppercase text-black leading-none">
               SKILLS & CAPABILITIES
             </h1>
-            <p className="text-black font-bold text-sm md:text-base mt-2 font-sans">
-              Interactive technical breakdown spanning frontend architectures, backend microservices, databases, and AI tooling.
-            </p>
           </div>
 
-          <div className="bg-black text-white p-4 border-2 border-black neo-shadow-sm text-xs font-mono font-bold space-y-1">
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#fcd400]" />
-              <span className="text-[#22c55e]">STRICT TYPE SAFETY // TS 5.8</span>
-            </div>
-            <div className="text-gray-400">16 PRODUCTION-READY SKILLS</div>
-          </div>
-        </div>
-
-        {/* Quick Navigation Strip */}
-        <div className="pt-4 border-t-3 border-black flex flex-wrap items-center gap-2 text-xs">
-          <span className="font-bold text-black uppercase mr-2">[ QUICK NAV DESTINATIONS ]:</span>
-          
-          <MagneticButton
-            onClick={(e) => handleLinkClick(e, 'Yash Sahu - Developer Portfolio')}
-            pullFactor={0.2}
-            className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-3 py-1 font-bold border-2 border-black uppercase transition-colors"
-          >
-            HOME
-          </MagneticButton>
-
-          <MagneticButton
-            onClick={(e) => handleLinkClick(e, 'About - Yash Sahu (Curtain Transitions)')}
-            pullFactor={0.2}
-            className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-3 py-1 font-bold border-2 border-black uppercase transition-colors"
-          >
-            ABOUT 01/05
-          </MagneticButton>
-
-          <MagneticButton
-            onClick={(e) => handleLinkClick(e, 'Projects - Yash Sahu')}
-            pullFactor={0.2}
-            className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-3 py-1 font-bold border-2 border-black uppercase transition-colors"
-          >
-            PROJECTS 02/05
-          </MagneticButton>
-
-          <MagneticButton
-            onClick={(e) => handleLinkClick(e, 'Experience - Yash Sahu (Curtain Transitions)')}
-            pullFactor={0.2}
-            className="bg-white text-black hover:bg-black hover:text-[#fcd400] px-3 py-1 font-bold border-2 border-black uppercase transition-colors"
-          >
-            EXPERIENCE 04/05
-          </MagneticButton>
-
-          <MagneticButton
-            onClick={(e) => handleLinkClick(e, 'Contact - Yash Sahu')}
-            pullFactor={0.2}
-            className="bg-[#22c55e] text-black hover:bg-black hover:text-[#22c55e] px-3 py-1 font-bold border-2 border-black uppercase transition-colors"
-          >
-            CONTACT 05/05
-          </MagneticButton>
-        </div>
-      </div>
-
-      {/* Live Benchmark Stats Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs font-bold">
-        <div className="bg-white p-4 border-3 border-black neo-shadow-sm flex items-center gap-3">
-          <div className="p-2.5 bg-black text-[#fcd400] border border-black">
-            <Code2 className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase">TOTAL STACK SIZE</span>
-            <span className="text-lg font-heading font-extrabold text-black">16 TECHNOLOGIES</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-4 border-3 border-black neo-shadow-sm flex items-center gap-3">
-          <div className="p-2.5 bg-black text-[#22c55e] border border-black">
-            <Flame className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase">AVERAGE PROFICIENCY</span>
-            <span className="text-lg font-heading font-extrabold text-black">90% MASTERY</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-4 border-3 border-black neo-shadow-sm flex items-center gap-3">
-          <div className="p-2.5 bg-black text-[#ff6b00] border border-black">
-            <Layers className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-gray-500 block text-[10px] uppercase">PRIMARY ARCHITECTURE</span>
-            <span className="text-sm font-heading font-extrabold text-black">REACT • TS • NODE • POSTGRES</span>
+          <div className="bg-black text-white p-3 border-2 border-black neo-shadow-sm text-xs font-mono font-bold">
+            {allSkills.length} TECHNOLOGIES
           </div>
         </div>
       </div>
@@ -205,8 +107,7 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
           
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs font-bold uppercase text-gray-500 mr-2">[ CATEGORY ]:</span>
-            {['ALL', 'Frontend', 'Backend', 'Databases', 'AI'].map((cat) => {
+            {['ALL', 'Frontend', 'Backend', 'Databases', 'Architecture'].map((cat) => {
               const count = cat === 'ALL' 
                 ? allSkills.length 
                 : allSkills.filter(s => s.category.toLowerCase().includes(cat.toLowerCase())).length;
@@ -237,7 +138,7 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search stack e.g. 'React', 'Docker'..."
+              placeholder="Search e.g. 'React', 'Docker'..."
               className="w-full bg-[#fbfaee] text-black pl-9 pr-8 py-2 border-2 border-black focus:outline-none focus:bg-white text-xs font-mono font-bold"
             />
             {searchQuery && (
@@ -256,13 +157,13 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
           <div className="bg-[#fcd400] border-3 border-black p-3.5 neo-shadow-sm flex items-center justify-between gap-4 font-mono text-xs font-bold text-black">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-black shrink-0" />
-              <span>FILTERED PROJECTS MATCHING: <span className="underline uppercase">{activeSkillFilter}</span> ({matchingProjects.length} FOUND)</span>
+              <span>PROJECTS MATCHING: <span className="underline uppercase">{activeSkillFilter}</span> ({matchingProjects.length} FOUND)</span>
             </div>
             <button
               onClick={() => setActiveSkillFilter(null)}
               className="bg-black text-white px-2 py-0.5 border border-black hover:bg-white hover:text-black transition-colors"
             >
-              CLEAR FILTER
+              CLEAR
             </button>
           </div>
         )}
@@ -315,8 +216,8 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
                   <span className={isSelected ? 'text-[#fcd400]' : 'text-gray-500'}>
                     {skill.category.toUpperCase()}
                   </span>
-                  <span className={`underline flex items-center gap-1 ${isSelected ? 'text-white' : 'text-black'}`}>
-                    {isSelected ? <Check className="w-3 h-3 text-[#22c55e]" /> : 'INSPECT PROJECTS →'}
+                  <span className={`flex items-center gap-1 ${isSelected ? 'text-white' : 'text-black'}`}>
+                    {isSelected ? <Check className="w-3 h-3 text-[#22c55e]" /> : 'VIEW PROJECTS →'}
                   </span>
                 </div>
               </MagneticCard>
@@ -325,81 +226,53 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
         </div>
       </div>
 
-      {/* Matching Projects Panel (Appears when a skill card is clicked) */}
-      {activeSkillFilter && (
+      {/* Matching Projects Panel */}
+      {activeSkillFilter && matchingProjects.length > 0 && (
         <div className="bg-black text-white border-6 border-black p-6 md:p-8 neo-shadow-lg space-y-6 font-mono">
           <div className="flex items-center justify-between border-b-2 border-gray-800 pb-4">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-[#fcd400]" />
-              <h2 className="text-xl md:text-2xl font-heading font-extrabold uppercase text-[#fcd400]">
-                PROJECTS POWERED BY {activeSkillFilter} ({matchingProjects.length})
-              </h2>
-            </div>
+            <h2 className="text-xl md:text-2xl font-heading font-extrabold uppercase text-[#fcd400]">
+              PROJECTS USING {activeSkillFilter}
+            </h2>
             <button
               onClick={() => setActiveSkillFilter(null)}
               className="text-xs bg-gray-800 hover:bg-red-500 text-white px-3 py-1 border border-white transition-colors"
             >
-              CLOSE MATCHES [X]
+              CLOSE
             </button>
           </div>
 
-          {matchingProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {matchingProjects.map((proj) => (
-                <div
-                  key={proj.id}
-                  className="bg-[#1a1a2e] border-2 border-gray-700 p-5 space-y-3 neo-shadow-sm flex flex-col justify-between"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#22c55e] font-bold">{proj.category}</span>
-                      <span className="text-xs text-gray-400">{proj.year}</span>
-                    </div>
-                    <h3 className="text-lg font-heading font-extrabold uppercase text-white">{proj.title}</h3>
-                    <p className="text-xs text-gray-300 font-sans line-clamp-2">{proj.tagline}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {matchingProjects.map((proj) => (
+              <div
+                key={proj.id}
+                className="bg-[#1a1a2e] border-2 border-gray-700 p-5 space-y-3 neo-shadow-sm flex flex-col justify-between"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-[#22c55e] font-bold">{proj.category}</span>
+                    <span className="text-xs text-gray-400">{proj.year}</span>
                   </div>
-
-                  {onSelectProject && (
-                    <button
-                      onClick={() => {
-                        soundFX.playClick();
-                        onSelectProject(proj);
-                      }}
-                      className="w-full bg-[#fcd400] text-black hover:bg-white py-2 font-mono font-bold text-xs uppercase border border-black flex items-center justify-center gap-1.5"
-                    >
-                      <span>INSPECT PROJECT</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </button>
-                  )}
+                  <h3 className="text-lg font-heading font-extrabold uppercase text-white">{proj.title}</h3>
+                  <p className="text-xs text-gray-300 font-sans line-clamp-2">{proj.tagline}</p>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-gray-400 text-sm py-4">
-              No specific flagship showcase projects directly tagged with "{activeSkillFilter}". Explore the Projects view for full repositories!
-            </div>
-          )}
+
+                {onSelectProject && (
+                  <button
+                    onClick={() => {
+                      soundFX.playClick();
+                      onSelectProject(proj);
+                    }}
+                    className="w-full bg-[#fcd400] text-black hover:bg-white py-2 font-mono font-bold text-xs uppercase border border-black flex items-center justify-center gap-1.5"
+                  >
+                    <span>VIEW</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
-
-      {/* Tech Stack Ecosystem Visual Footer Grid */}
-      <div className="bg-[#ffdad6] border-4 border-black p-6 md:p-8 neo-shadow-sm space-y-4 font-mono">
-        <div className="flex items-center gap-2 text-black">
-          <Terminal className="w-5 h-5 text-black" />
-          <h3 className="font-heading text-xl font-extrabold uppercase">
-            DEVELOPMENT ENVIRONMENT & ECOSYSTEM
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 font-mono text-xs font-bold pt-2">
-          <div className="bg-white text-black p-3 border-2 border-black text-center neo-shadow-sm hover:bg-[#fcd400] transition-colors">VS CODE / CURSOR</div>
-          <div className="bg-white text-black p-3 border-2 border-black text-center neo-shadow-sm hover:bg-[#fcd400] transition-colors">GIT & GITHUB</div>
-          <div className="bg-white text-black p-3 border-2 border-black text-center neo-shadow-sm hover:bg-[#fcd400] transition-colors">POSTMAN / HTTP</div>
-          <div className="bg-white text-black p-3 border-2 border-black text-center neo-shadow-sm hover:bg-[#fcd400] transition-colors">ESBUILD & VITE</div>
-          <div className="bg-white text-black p-3 border-2 border-black text-center neo-shadow-sm hover:bg-[#fcd400] transition-colors">PYTHON & NUMPY</div>
-          <div className="bg-white text-black p-3 border-2 border-black text-center neo-shadow-sm hover:bg-[#fcd400] transition-colors">CLOUD RUN & GCP</div>
-        </div>
-      </div>
 
     </div>
   );

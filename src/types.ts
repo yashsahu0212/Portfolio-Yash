@@ -1,19 +1,16 @@
 export type ScreenId =
-  | 'Yash Sahu - Developer Portfolio'
-  | 'Experience - Yash Sahu (Curtain Transitions)'
-  | 'Yash Sahu - Developer Portfolio (Curtain Transitions)'
-  | 'Projects - Yash Sahu'
-  | 'About - Yash Sahu'
-  | 'Contact - Yash Sahu'
-  | 'Skills - Yash Sahu'
-  | 'Experience - Yash Sahu'
-  | 'About - Yash Sahu (Curtain Transitions)'
-  | 'Skills - Yash Sahu (Curtain Transitions)';
+  | 'Home'
+  | 'About'
+  | 'Projects'
+  | 'Skills'
+  | 'Experience'
+  | 'Contact'
+  | string;
 
 export interface ArchNode {
   step: string;
   name: string;
-  type: 'client' | 'gateway' | 'service' | 'database' | 'ai';
+  type: 'client' | 'gateway' | 'service' | 'database' | 'system';
   desc: string;
   status?: string;
 }
@@ -23,7 +20,7 @@ export interface Project {
   title: string;
   tagline: string;
   description: string;
-  category: 'Full Stack' | 'Frontend' | 'AI / Systems' | 'Mobile';
+  category: 'Full Stack' | 'Frontend' | 'Systems & Backend' | 'Mobile';
   tags: string[];
   image: string;
   demoUrl: string;

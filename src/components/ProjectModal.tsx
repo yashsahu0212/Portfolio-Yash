@@ -39,7 +39,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
         return <Cpu className="w-4 h-4 text-purple-500" />;
       case 'database':
         return <Database className="w-4 h-4 text-green-500" />;
-      case 'ai':
+      case 'system':
         return <Bot className="w-4 h-4 text-yellow-500" />;
       default:
         return <Cpu className="w-4 h-4" />;
@@ -56,7 +56,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
         return 'bg-purple-600 text-white';
       case 'database':
         return 'bg-green-600 text-white';
-      case 'ai':
+      case 'system':
         return 'bg-[#fcd400] text-black';
       default:
         return 'bg-black text-white';

@@ -1,25 +1,52 @@
-<<<<<<< HEAD
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Yash Sahu - Developer Portfolio
 
-# Run and deploy your AI Studio app
+An interactive, high-performance Neo-Brutalist developer portfolio for Yash Sahu built with React 19, TypeScript, Vite, and Tailwind CSS.
 
-This contains everything you need to run your app locally.
+## 🚀 Features
 
-View your app in AI Studio: https://ai.studio/apps/41ec188d-05c5-45fc-9db3-c9ea0e97a089
+- **Neo-Brutalist UI/UX**: Bold high-contrast typography, crisp borders, solid drop shadows, and dynamic color palettes.
+- **Interactive Project Showcase**: Detailed architecture node breakdowns, live demo links, tag filtering, and modal views.
+- **Skills Matrix & Experience Timeline**: Visual skill progress meters and career milestones.
+- **Sound Effects & Micro-Interactions**: Web Audio API synthesized retro sound effects and interactive UI transitions.
+- **Fully Responsive**: Optimized for desktop, tablet, and mobile displays.
 
-## Run Locally
+## 🛠️ Tech Stack
 
-**Prerequisites:**  Node.js
+- **Frontend**: React 19, TypeScript, Vite
+- **Styling**: Tailwind CSS v4, Vanilla CSS
+- **Animations**: Motion (Framer Motion)
+- **Icons**: Lucide React
 
+## 💻 Getting Started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
-=======
-# Yash-Portfolio
-A Portfolio website for myself to showcase my achievements and experiences 
->>>>>>> a1571c0aa4ce57eade7ec90740602d54c73e13a3
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or bun
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yashsahu0212/Yash-Portfolio.git
+   cd Yash-Portfolio
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## 📜 License
+
+MIT License
