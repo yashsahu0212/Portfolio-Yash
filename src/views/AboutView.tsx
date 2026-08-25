@@ -12,6 +12,12 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
   const [resumeDownloaded, setResumeDownloaded] = useState(false);
 
   const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = YASH_BIO.resumeUrl || '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     setResumeDownloaded(true);
     setTimeout(() => setResumeDownloaded(false), 3000);
   };
@@ -164,13 +170,13 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
         <div className="lg:col-span-4 space-y-6">
           
           {/* Yash Profile Card */}
-          <div className="bg-white border-4 border-black p-6 neo-shadow-sm space-y-4 font-mono">
+          <div className="group bg-white border-4 border-black p-6 neo-shadow-sm space-y-4 font-mono">
             <div className="w-full h-56 bg-gray-200 border-3 border-black overflow-hidden relative">
               <img
                 src={YASH_BIO.avatar}
                 alt="Yash Sahu Profile"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-300"
+                className="w-full h-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-300"
               />
             </div>
 

@@ -50,7 +50,7 @@ export interface ExperienceItem {
   role: string;
   company: string;
   location: string;
-  type: 'Full-time' | 'Contract' | 'Open Source';
+  type: 'Full-time' | 'Contract' | 'Open Source' | 'College / Undergrad' | 'High School' | 'Schooling' | string;
   description: string[];
   technologies: string[];
   metrics: string;

@@ -7,7 +7,8 @@ import {
   Twitter, 
   Send, 
   CheckCircle2, 
-  Copy
+  Copy,
+  Download
 } from 'lucide-react';
 import { TextRoll } from '../components/TextRoll';
 
@@ -18,6 +19,15 @@ interface ContactViewProps {
 export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -246,6 +256,17 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                 </div>
                 <span className="text-xs font-mono font-bold">DM →</span>
               </a>
+
+              <button
+                onClick={handleDownloadResume}
+                className="w-full flex items-center justify-between p-3 bg-[#fcd400] text-black border-2 border-black hover:bg-black hover:text-[#fcd400] transition-colors font-bold font-mono cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <Download className="w-5 h-5" />
+                  <span>RESUME (PDF)</span>
+                </div>
+                <span className="text-xs font-mono font-bold">DOWNLOAD ↓</span>
+              </button>
             </div>
           </div>
 

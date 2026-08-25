@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScreenId } from '../types';
 import { YASH_BIO } from '../data/portfolioData';
-import { Github, Linkedin, Twitter, ArrowUpRight, Terminal } from 'lucide-react';
+import { Github, Linkedin, Twitter, ArrowUpRight, Terminal, Download } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (destination: ScreenId) => void;
@@ -32,6 +32,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     navigator.clipboard.writeText(YASH_BIO.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -116,6 +125,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   <Twitter className="w-4 h-4" />
                   <span>TWITTER/X</span>
                 </a>
+                <button
+                  onClick={handleDownloadResume}
+                  className="bg-[#fcd400] text-black hover:bg-white hover:text-black p-3 border border-gray-700 transition-colors inline-flex items-center gap-2 text-xs font-bold cursor-pointer"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>RESUME (PDF)</span>
+                </button>
               </div>
             </div>
 

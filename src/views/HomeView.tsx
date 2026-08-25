@@ -10,6 +10,7 @@ import { ScrollRevealText } from '../components/ScrollRevealText';
 import { 
   ArrowRight, 
   ExternalLink,
+  Download,
 } from 'lucide-react';
 
 interface HomeViewProps {
@@ -24,6 +25,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onSelectProject,
 }) => {
   const featuredProjects = PROJECTS_DATA.filter((p) => p.featured);
+
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = YASH_BIO.resumeUrl || '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="space-y-16 pb-12 font-sans">
@@ -55,7 +65,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               {YASH_BIO.tagline}
             </ScrollRevealText>
 
-            {/* Single Primary CTA */}
+            {/* Primary CTAs */}
             <div className="flex flex-wrap items-center gap-4 pt-2 font-mono">
               <a
                 href="#"
@@ -68,6 +78,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 <span>VIEW PROJECTS</span>
                 <ArrowRight className="w-5 h-5" />
               </a>
+
+              <button
+                onClick={handleDownloadResume}
+                className="bg-black text-[#fcd400] hover:bg-white hover:text-black px-6 py-3 font-bold text-base border-4 border-black neo-shadow-hover flex items-center gap-2 uppercase cursor-pointer"
+              >
+                <Download className="w-5 h-5" />
+                <span>DOWNLOAD RESUME</span>
+              </button>
             </div>
 
             {/* Metrics Counter Grid */}

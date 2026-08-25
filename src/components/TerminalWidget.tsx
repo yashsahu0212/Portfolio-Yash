@@ -29,7 +29,7 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
       command: 'help',
       output: (
         <div className="text-gray-300">
-          Available commands: <span className="text-[#fcd400]">about</span>, <span className="text-[#fcd400]">skills</span>, <span className="text-[#fcd400]">projects</span>, <span className="text-[#fcd400]">experience</span>, <span className="text-[#fcd400]">contact</span>, <span className="text-[#fcd400]">clear</span>, <span className="text-[#fcd400]">whoami</span>
+          Available commands: <span className="text-[#fcd400]">about</span>, <span className="text-[#fcd400]">skills</span>, <span className="text-[#fcd400]">projects</span>, <span className="text-[#fcd400]">experience</span>, <span className="text-[#fcd400]">contact</span>, <span className="text-[#fcd400]">resume</span>, <span className="text-[#fcd400]">clear</span>, <span className="text-[#fcd400]">whoami</span>
         </div>
       )
     }
@@ -42,6 +42,15 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
       terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
     }
   }, [history]);
+
+  const triggerResumeDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,8 +69,20 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
             <p><span className="text-[#fcd400]">projects</span> - List flagship projects</p>
             <p><span className="text-[#fcd400]">experience</span> - View career history & timeline</p>
             <p><span className="text-[#fcd400]">contact</span> - Get direct email & booking info</p>
+            <p><span className="text-[#fcd400]">resume</span> - Download official Yash Sahu PDF Resume</p>
             <p><span className="text-[#fcd400]">clear</span> - Reset terminal screen</p>
             <p><span className="text-[#fcd400]">whoami</span> - Display current shell user context</p>
+          </div>
+        );
+        break;
+
+      case 'resume':
+      case 'download':
+        triggerResumeDownload();
+        output = (
+          <div className="text-green-400 font-mono">
+            <p className="font-bold">[SUCCESS] Initiating resume PDF download...</p>
+            <p className="text-xs text-gray-300">File: Resume_Yash_Sahu.pdf (100 KB)</p>
           </div>
         );
         break;

@@ -26,6 +26,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({ onNavigate }) =>
 
   const handleDownload = () => {
     soundFX.playClick();
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     setDownloaded(true);
     setTimeout(() => setDownloaded(false), 3000);
   };

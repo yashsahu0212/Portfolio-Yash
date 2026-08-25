@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScreenId } from '../types';
-import { Menu, X, ToggleLeft, ToggleRight, MousePointer, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, ToggleLeft, ToggleRight, MousePointer, Volume2, VolumeX, Download } from 'lucide-react';
 import { soundFX } from '../utils/sfx';
 import { MagneticButton } from './MagneticButton';
 import { TextRoll } from './TextRoll';
@@ -48,6 +48,16 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   const handleToggleSound = () => {
     const muted = soundFX.toggleMute();
     setIsSoundMuted(muted);
+  };
+
+  const handleDownloadResume = () => {
+    soundFX.playClick();
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Resume_Yash_Sahu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -221,6 +231,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <TextRoll>{item.name}</TextRoll>
               </a>
             ))}
+
           </nav>
         </div>
       )}

@@ -9,6 +9,7 @@ export const YASH_BIO = {
   github: 'https://github.com/yashsahu0212',
   linkedin: 'https://linkedin.com/in/yashsahu0212',
   twitter: 'https://twitter.com/yashsahu0212',
+  resumeUrl: '/resume.pdf',
   avatar: yashAvatar,
   tagline: 'Building responsive web applications, secure software tools, and algorithmic backend systems.',
   summary: `I am a Computer Science Engineering student and developer at VIT Bhopal University. I specialize in Full-Stack Web Development (React, TypeScript, Node.js), Python system modeling, cybersecurity tooling, and sleek, minimalist UI design.`,
