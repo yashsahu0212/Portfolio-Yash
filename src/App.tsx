@@ -30,7 +30,7 @@ export default function App() {
   const [curtainTargetTitle, setCurtainTargetTitle] = useState<string>('YASH SAHU PORTFOLIO');
   const [curtainStepNumber, setCurtainStepNumber] = useState<string>('00 / WELCOME');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isCustomCursorEnabled, setIsCustomCursorEnabled] = useState<boolean>(false);
+  const [isCustomCursorEnabled, setIsCustomCursorEnabled] = useState<boolean>(true);
 
   const isTransitioningRef = useRef<boolean>(true);
   const timeoutIdsRef = useRef<NodeJS.Timeout[]>([]);
