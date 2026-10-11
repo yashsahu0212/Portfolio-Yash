@@ -11,6 +11,9 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Track canvas mask as state so React always has the latest painted result
+  const [canvasMaskUrl, setCanvasMaskUrl] = useState('');
+
   // Target mouse coordinates inside container
   const targetPos = useRef({ x: -200, y: -200 });
   // Current animated coordinates (for smooth liquid spring inertia)
@@ -41,6 +44,13 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
       d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${format(p2.x)} ${format(p2.y)}`;
     }
     return d + ' Z';
+  }, []);
+
+  // Flush the current canvas state into the mask URL state
+  const flushCanvasMask = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    setCanvasMaskUrl(canvas.toDataURL());
   }, []);
 
   // Paint the current blob shape onto the canvas mask (accumulates)
@@ -75,9 +85,13 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
   useEffect(() => {
     let animId: number | null = null;
     let time = 0;
+    // Throttle mask URL updates to every N frames (toDataURL is expensive)
+    let frameCount = 0;
+    const MASK_UPDATE_INTERVAL = 3;
 
     const updateWaterPhysics = () => {
       time += 0.05;
+      frameCount++;
 
       // Spring physics lerp to follow cursor with fluid lag
       const dx = targetPos.current.x - currentPos.current.x;
@@ -120,6 +134,11 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
       // Paint onto canvas mask (persistent accumulation)
       paintBlobToCanvas(points);
 
+      // Update mask URL periodically (not every frame — toDataURL is expensive)
+      if (frameCount % MASK_UPDATE_INTERVAL === 0) {
+        flushCanvasMask();
+      }
+
       // Update live blob points for SVG border overlay
       setBlobPoints(points);
 
@@ -139,6 +158,8 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
       if (isHovered || speed > 0.05 || dist > 0.5) {
         animId = requestAnimationFrame(updateWaterPhysics);
       } else {
+        // Animation is stopping — do a final flush so the mask captures everything
+        flushCanvasMask();
         animId = null;
       }
     };
@@ -152,7 +173,7 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
         cancelAnimationFrame(animId);
       }
     };
-  }, [isHovered, paintBlobToCanvas, createSmoothPath]);
+  }, [isHovered, paintBlobToCanvas, createSmoothPath, flushCanvasMask]);
 
   // Resize canvas to match container
   useEffect(() => {
@@ -194,10 +215,9 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
   const handleMouseLeave = () => {
     setIsHovered(false);
     setBlobPoints([]);
+    // Final flush: capture the very last canvas state so no painted areas are lost
+    flushCanvasMask();
   };
-
-  // Generate the canvas data URL for CSS mask
-  const canvasMask = canvasRef.current?.toDataURL() || '';
 
   return (
     <div className={`relative inline-block group ${className}`}>
@@ -227,8 +247,8 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
           className="absolute inset-0 px-6 py-3.5 flex items-center justify-center pointer-events-none z-10 bg-[#1a1a2e]"
           style={{
             opacity: hasBeenRevealed ? 1 : 0,
-            WebkitMaskImage: canvasMask ? `url(${canvasMask})` : 'none',
-            maskImage: canvasMask ? `url(${canvasMask})` : 'none',
+            WebkitMaskImage: canvasMaskUrl ? `url(${canvasMaskUrl})` : 'none',
+            maskImage: canvasMaskUrl ? `url(${canvasMaskUrl})` : 'none',
             WebkitMaskSize: '100% 100%',
             maskSize: '100% 100%',
             WebkitMaskRepeat: 'no-repeat',
