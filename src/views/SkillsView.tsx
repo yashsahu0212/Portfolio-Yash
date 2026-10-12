@@ -107,10 +107,10 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
           
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 flex-wrap">
-            {['ALL', 'Frontend', 'Backend', 'Databases', 'Architecture'].map((cat) => {
+            {['ALL', 'Frontend', 'Databases & Backend'].map((cat) => {
               const count = cat === 'ALL' 
                 ? allSkills.length 
-                : allSkills.filter(s => s.category.toLowerCase().includes(cat.toLowerCase())).length;
+                : allSkills.filter(s => s.category.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(s.category.toLowerCase())).length;
 
               return (
                 <button
@@ -138,7 +138,7 @@ export const SkillsView: React.FC<SkillsViewProps> = ({ onNavigate, onSelectProj
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search e.g. 'React', 'Docker'..."
+              placeholder="Search e.g. 'JavaScript', 'SQL', 'PostgreSQL'..."
               className="w-full bg-[#fbfaee] text-black pl-9 pr-8 py-2 border-2 border-black focus:outline-none focus:bg-white text-xs font-mono font-bold"
             />
             {searchQuery && (

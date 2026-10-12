@@ -107,9 +107,9 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
       case 'skills':
         output = (
           <div className="text-gray-200 space-y-1">
-            <p className="text-green-400 font-bold">FRONTEND: React, TypeScript, Next.js, Tailwind CSS, Motion</p>
-            <p className="text-blue-400 font-bold">BACKEND: Node.js, Express, Go, Python, REST, GraphQL</p>
-            <p className="text-[#fcd400] font-bold">DATABASE & INFRA: PostgreSQL, Redis, Docker, GCP, Git</p>
+            <p className="text-green-400 font-bold">FRONTEND: HTML, CSS, JavaScript</p>
+            <p className="text-blue-400 font-bold">DATABASES & BACKEND: SQL, PostgreSQL, Supabase</p>
+            <p className="text-[#fcd400] font-bold">FOCUS: Full-Stack Web Development, Real-Time WebSockets & Scalable Relational Systems</p>
           </div>
         );
         break;
@@ -117,9 +117,10 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
       case 'projects':
         output = (
           <div className="text-gray-200 space-y-1">
-            <p>1. <span className="text-[#fcd400] font-bold">Resilience Analyzer</span> - System Resilience Engine</p>
-            <p>2. <span className="text-[#fcd400] font-bold">Hotel Management System</span> - Automated Billing & Reservation</p>
-            <p>3. <span className="text-[#fcd400] font-bold">Temperature Predictor</span> - Thermal Analytics Platform</p>
+            <p>1. <span className="text-[#fcd400] font-bold">feedBox AI</span> - Campus Maintenance & Operations Portal</p>
+            <p>2. <span className="text-[#fcd400] font-bold">IPL Mega Auction Engine</span> - Live Bidding Simulator</p>
+            <p>3. <span className="text-[#fcd400] font-bold">Stock Flow</span> - Warehouse Inventory & Smart Picking</p>
+            <p>4. <span className="text-[#fcd400] font-bold">Resilience Analyzer</span> - Password Security & Breach Engine</p>
             {onNavigate && (
               <button
                 onClick={() => onNavigate('Projects')}
@@ -135,9 +136,9 @@ export const TerminalWidget: React.FC<TerminalWidgetProps> = ({ onNavigate }) =>
       case 'experience':
         output = (
           <div className="text-gray-200 space-y-1">
-            <p>• Senior Full Stack Engineer @ TechVentures (2024 - Present)</p>
-            <p>• Frontend Architect @ CraftLabs (2022 - 2024)</p>
-            <p>• Software Development Engineer @ InnoTech (2021 - 2022)</p>
+            <p>• B.Tech in CSE @ VIT Bhopal University (2025 - Present)</p>
+            <p>• Hackathon Developer (Cyber Carnival 2026 & SIH 2026)</p>
+            <p>• Open Source Contributor & Full-Stack Builder</p>
           </div>
         );
         break;

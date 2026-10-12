@@ -83,10 +83,10 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
 
               <div className="space-y-4 text-gray-800 text-base leading-relaxed">
                 <p>
-                  I am a Full-Stack Software Engineer with hands-on experience crafting scalable web applications, Python/Node backends, and responsive React interfaces. Based in {YASH_BIO.location}, I thrive at the intersection of complex systems engineering and delightful frontend user interfaces.
+                  I am a Full-Stack Software Engineer with hands-on experience crafting responsive web applications, real-time database workflows, and robust full-stack systems. Based in {YASH_BIO.location}, I thrive at the intersection of relational database engineering and delightful frontend user interfaces.
                 </p>
                 <p>
-                  Throughout my projects, I've built temperature predictors, resilience analyzer tools, cooling law physics calculators, and Python hotel management platforms.
+                  Throughout my projects, I've built feedBox AI (autonomous campus operations portal), IPL Mega Auction Engine (real-time cricket bidding platform), Stock Flow (warehouse inventory management system), and Resilience Analyzer (password security tool).
                 </p>
               </div>
 
@@ -94,11 +94,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onNavigate }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t-2 border-black font-mono text-xs">
                 <div className="bg-[#fbfaee] p-4 border-2 border-black">
                   <span className="font-bold text-[#ff6b00] block mb-1">▶ FRONTEND</span>
-                  <span className="text-black">React 19, TypeScript, Tailwind CSS, State Machines, WebSockets.</span>
+                  <span className="text-black">HTML, CSS, JavaScript, Responsive Layouts, DOM APIs & Interactive UI.</span>
                 </div>
                 <div className="bg-[#fbfaee] p-4 border-2 border-black">
-                  <span className="font-bold text-[#ff6b00] block mb-1">▶ BACKEND & SYSTEMS</span>
-                  <span className="text-black">Python, Node.js, Express, PostgreSQL, REST APIs, Machine Learning.</span>
+                  <span className="font-bold text-[#ff6b00] block mb-1">▶ DATABASES & BACKEND</span>
+                  <span className="text-black">SQL, PostgreSQL, Supabase, Relational Modeling & Row-Level Security.</span>
                 </div>
               </div>
             </div>
