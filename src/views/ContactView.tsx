@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { ScreenId } from '../types';
 import { YASH_BIO } from '../data/portfolioData';
 import { 
@@ -51,41 +52,46 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
     setSubmitError(null);
 
     try {
-      const accessKey =
-        import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ||
-        '969fa669-90fe-4dc6-8ee4-681eb2989f09';
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_rwe035k';
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_f1uxy4g';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'JBQjDPWs1CLBgQphd';
 
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: accessKey,
-          name: formData.name,
-          email: formData.email,
-          replyto: formData.email,
-          from_name: `${formData.name} (Portfolio)`,
-          subject: `[Portfolio Inquiry] ${formData.projectType} from ${formData.name}`,
-          project_type: formData.projectType,
-          message: formData.message,
-        }),
-      });
+      const templateParams = {
+        // Yash (Owner / Recipient)
+        to_name: 'Yash Sahu',
+        to_email: 'yashsahu0212@gmail.com',
 
-      const data = await response.json();
+        // Sender details
+        from_name: formData.name,
+        name: formData.name,
+        from_email: formData.email,
+        email: formData.email,
+        reply_to: formData.email,
 
-      if (response.ok && data.success) {
+        // Carbon Copy (CC) so the user gets a copy as well
+        cc_email: formData.email,
+        cc: formData.email,
+
+        // Content
+        project_type: formData.projectType,
+        projectType: formData.projectType,
+        message: formData.message,
+        subject: `[Portfolio Inquiry] ${formData.projectType} from ${formData.name}`,
+      };
+
+      const response = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      if (response.status === 200) {
         setFormSubmitted(true);
       } else {
-        setSubmitError(
-          data.message || 'Failed to dispatch message. Please try again or email directly.'
-        );
+        setSubmitError(response.text || 'Failed to dispatch message. Please try again.');
       }
-    } catch {
-      setSubmitError(
-        'Network error connecting to email service. Please try again or email directly.'
-      );
+    } catch (err: any) {
+      const errorMsg =
+        err?.text ||
+        err?.message ||
+        'Failed to dispatch message. Please check EmailJS configuration or email directly.';
+      setSubmitError(errorMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -143,7 +149,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                 MESSAGE SENT SUCCESSFULLY!
               </h3>
               <p className="font-sans text-sm text-gray-800 max-w-md mx-auto">
-                Thank you for reaching out, <span className="font-bold">{formData.name}</span>. Yash Sahu has received your note directly in his inbox and will reply to <span className="font-bold text-[#ff6b00]">{formData.email}</span> shortly.
+                Thank you for reaching out, <span className="font-bold">{formData.name}</span>. Yash Sahu has received your note directly in his inbox, and a copy has been kept in CC for <span className="font-bold text-[#ff6b00]">{formData.email}</span>.
               </p>
               <button
                 onClick={() => {
