@@ -7,7 +7,6 @@ interface SpotlightRoleBadgeProps {
 
 export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ className = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [hasBeenRevealed, setHasBeenRevealed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,7 +22,7 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
 
   // State for the live liquid border SVG overlay
   const [liquidBorderPath, setLiquidBorderPath] = useState('');
-  const [blobPoints, setBlobPoints] = useState<{ x: number; y: number }[]>([]);
+  const [, setBlobPoints] = useState<{ x: number; y: number }[]>([]);
 
   // Convert control points to smooth SVG cubic bezier path string
   const createSmoothPath = useCallback((pts: { x: number; y: number }[]) => {
@@ -82,6 +81,42 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
     ctx.fill();
   }, []);
 
+  // Helper to generate organic blob points around a center
+  const getBlobPoints = useCallback(
+    (
+      centerX: number,
+      centerY: number,
+      vx: number = 0,
+      vy: number = 0,
+      time: number = 0
+    ): { x: number; y: number }[] => {
+      const numPoints = 12;
+      const baseRadius = 30; // Water droplet radius
+      const speed = Math.sqrt(vx ** 2 + vy ** 2);
+      const angleOfMotion = Math.atan2(vy, vx);
+      const points: { x: number; y: number }[] = [];
+
+      for (let i = 0; i < numPoints; i++) {
+        const theta = (i / numPoints) * Math.PI * 2;
+        const speedFactor = Math.min(speed / 8, 1);
+        const ripple =
+          speedFactor *
+          (Math.sin(time * 3.5 + i * 1.8) * 7 + Math.cos(time * 2.2 + i * 2.5) * 5);
+        const stretchDirection = Math.cos(theta - angleOfMotion);
+        const stretchAmount = Math.min(speed * 1.2, 35) * stretchDirection;
+        const r = baseRadius + ripple + stretchAmount;
+
+        points.push({
+          x: centerX + Math.cos(theta) * r,
+          y: centerY + Math.sin(theta) * r,
+        });
+      }
+
+      return points;
+    },
+    []
+  );
+
   useEffect(() => {
     let animId: number | null = null;
     let time = 0;
@@ -106,36 +141,19 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
       const speed = Math.sqrt(velocity.current.x ** 2 + velocity.current.y ** 2);
       const dist = Math.sqrt(dx ** 2 + dy ** 2);
 
-      // Generate 12 control points for organic liquid surface tension & ripples
-      const numPoints = 12;
-      const baseRadius = 30; // Water droplet radius
-      const points: { x: number; y: number }[] = [];
-      const angleOfMotion = Math.atan2(velocity.current.y, velocity.current.x);
-
-      for (let i = 0; i < numPoints; i++) {
-        const theta = (i / numPoints) * Math.PI * 2;
-
-        // Speed-reactive ripple: perfectly circular when still, organic wobble when moving
-        const speedFactor = Math.min(speed / 8, 1); // 0 when still, 1 at fast movement
-        const ripple = speedFactor * (Math.sin(time * 3.5 + i * 1.8) * 7 + Math.cos(time * 2.2 + i * 2.5) * 5);
-
-        // Hydrodynamic stretch: only deforms in direction of motion when moving
-        const stretchDirection = Math.cos(theta - angleOfMotion);
-        const stretchAmount = Math.min(speed * 1.2, 35) * stretchDirection;
-
-        const r = baseRadius + ripple + stretchAmount;
-
-        const x = currentPos.current.x + Math.cos(theta) * r;
-        const y = currentPos.current.y + Math.sin(theta) * r;
-
-        points.push({ x, y });
-      }
+      const points = getBlobPoints(
+        currentPos.current.x,
+        currentPos.current.y,
+        velocity.current.x,
+        velocity.current.y,
+        time
+      );
 
       // Paint onto canvas mask (persistent accumulation)
       paintBlobToCanvas(points);
 
-      // Update mask URL periodically (not every frame — toDataURL is expensive)
-      if (frameCount % MASK_UPDATE_INTERVAL === 0) {
+      // Update mask URL periodically and immediately on first frame
+      if (frameCount === 1 || frameCount % MASK_UPDATE_INTERVAL === 0) {
         flushCanvasMask();
       }
 
@@ -173,22 +191,44 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
         cancelAnimationFrame(animId);
       }
     };
-  }, [isHovered, paintBlobToCanvas, createSmoothPath, flushCanvasMask]);
+  }, [isHovered, paintBlobToCanvas, createSmoothPath, flushCanvasMask, getBlobPoints]);
 
-  // Resize canvas to match container
+  // Resize canvas to match container & preserve existing scratches across resize
   useEffect(() => {
     const resizeCanvas = () => {
       const container = containerRef.current;
       const canvas = canvasRef.current;
       if (!container || !canvas) return;
       const rect = container.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      if (canvas.width === rect.width && canvas.height === rect.height) return;
+
+      let tempCanvas: HTMLCanvasElement | null = null;
+      if (canvas.width > 0 && canvas.height > 0) {
+        tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+        if (tempCtx) {
+          tempCtx.drawImage(canvas, 0, 0);
+        }
+      }
+
       canvas.width = rect.width;
       canvas.height = rect.height;
+
+      if (tempCanvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+          flushCanvasMask();
+        }
+      }
     };
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     return () => window.removeEventListener('resize', resizeCanvas);
-  }, []);
+  }, [flushCanvasMask]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -200,21 +240,48 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      targetPos.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
-      currentPos.current = { ...targetPos.current };
+    const container = containerRef.current;
+    const canvas = canvasRef.current;
+    if (container && canvas) {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      targetPos.current = { x, y };
+      currentPos.current = { x, y };
+
+      if (canvas.width === 0 || canvas.height === 0) {
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
+
+      // Paint initial contact droplet immediately onto the canvas
+      const initialPoints = getBlobPoints(x, y, 0, 0, 0);
+      paintBlobToCanvas(initialPoints);
+
+      // Compute initial liquid border path
+      const outerBorderPoints = initialPoints.map((p) => {
+        const vx = p.x - x;
+        const vy = p.y - y;
+        const len = Math.sqrt(vx * vx + vy * vy) || 1;
+        return {
+          x: p.x + (vx / len) * 3,
+          y: p.y + (vy / len) * 3,
+        };
+      });
+      setBlobPoints(initialPoints);
+      setLiquidBorderPath(createSmoothPath(outerBorderPoints));
+
+      // Synchronously flush mask URL so the very first render already has the droplet mask
+      setCanvasMaskUrl(canvas.toDataURL());
     }
     setIsHovered(true);
-    setHasBeenRevealed(true);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
     setBlobPoints([]);
+    setLiquidBorderPath('');
     // Final flush: capture the very last canvas state so no painted areas are lost
     flushCanvasMask();
   };
@@ -246,9 +313,9 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
         <div
           className="absolute inset-0 px-6 py-3.5 flex items-center justify-center pointer-events-none z-10 bg-[#1a1a2e]"
           style={{
-            opacity: hasBeenRevealed ? 1 : 0,
-            WebkitMaskImage: canvasMaskUrl ? `url(${canvasMaskUrl})` : 'none',
-            maskImage: canvasMaskUrl ? `url(${canvasMaskUrl})` : 'none',
+            opacity: canvasMaskUrl ? 1 : 0,
+            WebkitMaskImage: canvasMaskUrl ? `url(${canvasMaskUrl})` : 'linear-gradient(transparent, transparent)',
+            maskImage: canvasMaskUrl ? `url(${canvasMaskUrl})` : 'linear-gradient(transparent, transparent)',
             WebkitMaskSize: '100% 100%',
             maskSize: '100% 100%',
             WebkitMaskRepeat: 'no-repeat',
@@ -296,4 +363,5 @@ export const SpotlightRoleBadge: React.FC<SpotlightRoleBadgeProps> = ({ classNam
     </div>
   );
 };
+
 
