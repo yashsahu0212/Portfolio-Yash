@@ -7,6 +7,8 @@ import {
   Twitter, 
   Send, 
   CheckCircle2, 
+  AlertCircle,
+  Loader2,
   Copy,
   Download
 } from 'lucide-react';
@@ -18,6 +20,8 @@ interface ContactViewProps {
 
 export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleDownloadResume = () => {
@@ -36,13 +40,55 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
       alert('Please fill out all required fields.');
       return;
     }
-    setFormSubmitted(true);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const accessKey =
+        import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ||
+        '969fa669-90fe-4dc6-8ee4-681eb2989f09';
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          replyto: formData.email,
+          from_name: `${formData.name} (Portfolio)`,
+          subject: `[Portfolio Inquiry] ${formData.projectType} from ${formData.name}`,
+          project_type: formData.projectType,
+          message: formData.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setFormSubmitted(true);
+      } else {
+        setSubmitError(
+          data.message || 'Failed to dispatch message. Please try again or email directly.'
+        );
+      }
+    } catch {
+      setSubmitError(
+        'Network error connecting to email service. Please try again or email directly.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCopyEmail = () => {
@@ -97,11 +143,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                 MESSAGE SENT SUCCESSFULLY!
               </h3>
               <p className="font-sans text-sm text-gray-800 max-w-md mx-auto">
-                Thank you for reaching out, <span className="font-bold">{formData.name}</span>. Yash Sahu has received your note and will reply to <span className="font-bold text-[#ff6b00]">{formData.email}</span> shortly.
+                Thank you for reaching out, <span className="font-bold">{formData.name}</span>. Yash Sahu has received your note directly in his inbox and will reply to <span className="font-bold text-[#ff6b00]">{formData.email}</span> shortly.
               </p>
               <button
                 onClick={() => {
                   setFormSubmitted(false);
+                  setSubmitError(null);
                   setFormData({ name: '', email: '', projectType: 'Full-time Role', message: '' });
                 }}
                 className="bg-black text-[#fcd400] px-6 py-2.5 font-bold text-xs uppercase border-2 border-black hover:bg-[#fcd400] hover:text-black transition-colors"
@@ -111,7 +158,19 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4 font-mono">
-              
+              {submitError && (
+                <div className="bg-[#fee2e2] border-3 border-black p-4 neo-shadow-sm flex items-start gap-3 text-red-800 text-xs font-mono">
+                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <span className="font-bold block uppercase">Transmission Error:</span>
+                    <span>{submitError}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Honeypot Spam Protection */}
+              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+
               {/* Name & Email Inputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
@@ -121,10 +180,11 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                   <input
                     type="text"
                     required
+                    disabled={isSubmitting}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Alex Rivera"
-                    className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm"
+                    className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm disabled:opacity-60"
                   />
                 </div>
 
@@ -135,10 +195,11 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                   <input
                     type="email"
                     required
+                    disabled={isSubmitting}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. alex@company.com"
-                    className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm"
+                    className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -150,8 +211,9 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                 </label>
                 <select
                   value={formData.projectType}
+                  disabled={isSubmitting}
                   onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                  className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm font-mono"
+                  className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm font-mono disabled:opacity-60"
                 >
                   <option value="Full-time Role">Full-Time Engineering Role</option>
                   <option value="Contract Project">Contract / Consulting Project</option>
@@ -168,20 +230,31 @@ export const ContactView: React.FC<ContactViewProps> = ({ onNavigate }) => {
                 <textarea
                   required
                   rows={5}
+                  disabled={isSubmitting}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Describe your project, timeline, tech stack, or opportunity..."
-                  className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm"
+                  className="w-full bg-[#fbfaee] text-black p-3 border-2 border-black focus:outline-none focus:bg-white text-sm disabled:opacity-60"
                 ></textarea>
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="group w-full bg-[#fcd400] text-black hover:bg-black hover:text-[#fcd400] py-3.5 font-bold text-sm border-3 border-black neo-shadow-sm flex items-center justify-center gap-2 uppercase transition-all"
+                disabled={isSubmitting}
+                className="group w-full bg-[#fcd400] text-black hover:bg-black hover:text-[#fcd400] disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed py-3.5 font-bold text-sm border-3 border-black neo-shadow-sm flex items-center justify-center gap-2 uppercase transition-all"
               >
-                <Send className="w-4 h-4" />
-                <TextRoll>DISPATCH MESSAGE TO YASH SAHU</TextRoll>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>DISPATCHING MESSAGE...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <TextRoll>DISPATCH MESSAGE TO YASH SAHU</TextRoll>
+                  </>
+                )}
               </button>
             </form>
           )}
